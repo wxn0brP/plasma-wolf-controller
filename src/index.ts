@@ -2,7 +2,7 @@ import FalconFrame from "@wxn0brp/falcon-frame";
 import { existsSync } from "fs";
 import crypto from "crypto";
 import http from "http";
-import { spawn } from "bun";
+import { spawn } from "child_process";
 
 const bin = "native/build/plasma-wolf";
 if (!existsSync(bin)) {
@@ -27,11 +27,9 @@ server.listen(15965, "127.0.0.1", () => {
     console.log(`Server started at ${url}`);
 });
 
-const window = spawn({
-    cmd: [bin, url],
-    stdin: "inherit",
-    stdout: "inherit",
-    stderr: "inherit"
+const window = spawn(bin, [url], { stdio: "inherit" });
+window.on("exit", () => {
+    process.exit(0);
 });
 
 const api = app.router("/api");
@@ -41,6 +39,7 @@ api.use((req, res, next) => {
         res.end();
         return;
     }
+    console.log("api", req.url);
     next();
 })
 

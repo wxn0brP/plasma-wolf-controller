@@ -23,5 +23,23 @@ const commands: CommandMap = {
     ]
 }
 
-const menu = new WolfMenu(commands, document.querySelector(".wolf"));
+const menu = new WolfMenu(
+    commands,
+    document.querySelector(".wolf")
+);
+menu._cancelCommand = {
+    name: "cancel",
+    action: () => { _fetch("hide") }
+};
+menu._logFn = (...any: any[]) => {
+    console.error("front", ...any);
+};
+
 menu.init();
+
+(window as any)._wolf = (x: string, y: string) => {
+    menu._x = +x;
+    menu._y = +y;
+    console.error(menu._x, menu._y);
+    menu._open("start");
+}
