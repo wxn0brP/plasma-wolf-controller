@@ -1,0 +1,35 @@
+body {
+    background-color: transparent;
+    color: white;
+}
+
+.wolf {
+    --top: 50vh;
+    --left: 50vw;
+    background-color: rgba(17, 17, 17, 0.7);
+
+    top: var(--top);
+    left: var(--left);
+    position: fixed;
+
+    transform: translate(-50%, -50%);
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.wolf div {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    word-break: keep-all;
+    text-align: center;
+}
+
+.wolf .selected {
+    border: 1px solid red;
+}

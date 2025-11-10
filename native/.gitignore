@@ -1,0 +1,41 @@
+# Qt build files
+*.o
+moc_*.cpp
+moc_*.h
+moc_*.o
+qrc_*.cpp
+ui_*.h
+Makefile
+Makefile.Debug
+Makefile.Release
+*.pro.user
+*.pro.user.*
+*.qm
+
+# Build directories
+build/
+debug/
+release/
+
+# Temporary files
+*.tmp
+*~
+
+# Generated files
+moc_predefs.h
+
+# Executables
+*.exe
+*.out
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+.qmake.stash
