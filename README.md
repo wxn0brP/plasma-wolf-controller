@@ -32,23 +32,9 @@ This will show/hide the floating menu.
    cd plasma-wolf
    ```
 
-2. Install dependencies:
+2. Run script:
    ```bash
-   bun install
-   ```
-
-## Building
-
-1. First build the native component:
-   ```bash
-   cd native
    ./girl.sh
-   cd ..
-   ```
-
-2. Build the frontend:
-   ```bash
-   bun run build
    ```
 
 ## Running

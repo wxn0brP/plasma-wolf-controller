@@ -1,24 +1,8 @@
 import { WolfMenu } from "@wxn0brp/plasma-wolf";
-import { CommandMap } from "@wxn0brp/plasma-wolf/types";
+import { commands, initCommands } from "./commands";
+import { _fetch } from "./utils";
 
-const token = new URLSearchParams(window.location.search).get("token");
-function _fetch(url: string) {
-    return fetch("/api/" + url, {
-        headers: {
-            authorization: token
-        }
-    });
-}
-
-const commands: CommandMap = {
-    start: [
-        { name: "exit", action: () => { _fetch("exit").then(window.close) } },
-        { name: "empty", action: () => { } },
-        { name: "empty", action: () => { } },
-        { name: "empty", action: () => { } },
-    ]
-}
-
+initCommands();
 const wolf = document.querySelector<HTMLDivElement>(".wolf");
 const menu = new WolfMenu(commands, wolf);
 
@@ -38,9 +22,7 @@ menu.init();
     }, { once: true });
 }
 
-menu.emitter.on("menuClosed", () => {
-    _fetch("hide");
-});
+menu.emitter.on("menuClosed", () => _fetch("hide"));
 
 menu.emitter.on("menuOpened", () => {
     menu.distanceAccept = false;

@@ -30,8 +30,8 @@ WebViewWindow::WebViewWindow(const QString &url, QWidget *parent)
     : QMainWindow(parent), view(new QWebEngineView(this)) {
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-
-    view->setPage(new QWebEnginePage(view));
+    
+    view->setPage(new LoggingWebPage(view));
     view->page()->setBackgroundColor(Qt::transparent);
 
     view->load(QUrl(url));

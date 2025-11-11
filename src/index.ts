@@ -1,8 +1,10 @@
+import { Valthera } from "@wxn0brp/db";
 import FalconFrame from "@wxn0brp/falcon-frame";
-import { existsSync } from "fs";
+import { execSync, spawn } from "child_process";
 import crypto from "crypto";
+import { existsSync } from "fs";
 import http from "http";
-import { spawn } from "child_process";
+import { getCommandsHandler } from "./db";
 
 const bin = "native/build/plasma-wolf";
 if (!existsSync(bin)) {
@@ -16,14 +18,19 @@ if (!existsSync(bin)) {
     process.exit(1);
 }
 
-const token = crypto.randomBytes(16).toString("hex");
+const envName = "PLASMA_WOLF_TOKEN";
+const token = process.env[envName] || crypto.randomBytes(16).toString("hex");
+if (process.env[envName]) {
+    console.log("WARNING: Using environment variable for token");
+}
 
 const app = new FalconFrame();
 app.static("public");
 app.static("dist");
 const server = http.createServer(app.getApp());
-const url = "http://127.0.0.1:15965/?token=" + token;
-server.listen(15965, "127.0.0.1", () => {
+const port = +process.env.PORT || 15965;
+const url = `http://127.0.0.1:${port}/?token=` + token;
+server.listen(port, "127.0.0.1", () => {
     console.log(`Server started at ${url}`);
 });
 
@@ -39,7 +46,7 @@ api.use((req, res, next) => {
         res.end();
         return;
     }
-    console.log("api", req.url);
+    console.log("api", req.method, req.url);
     next();
 })
 
@@ -62,4 +69,17 @@ api.get("/exit", () => {
 api.get("/hide", () => {
     window.kill("SIGUSR1");
     return "ok";
+});
+
+api.get("/commands", getCommandsHandler);
+
+api.post("/execute", (req, res) => {
+    const command = req.body.command;
+    if (!command) {
+        res.status(400);
+        res.end();
+        return;
+    }
+    console.log("execute", command);
+    execSync(command);
 });
