@@ -21,7 +21,9 @@ const window = spawn(bin, [url], { stdio: "inherit" });
 window.on("exit", () => {
     process.exit(0);
 });
-window.kill("SIGUSR1");
+setTimeout(() => {
+    window.kill("SIGUSR1");
+}, 2000);
 
 const api = app.router("/api");
 api.use((req, res, next) => {
