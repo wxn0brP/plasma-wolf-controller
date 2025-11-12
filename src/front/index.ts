@@ -17,7 +17,7 @@ menu.init();
     menu._y = +y;
     console.error("menu", menu._x, menu._y);
     document.addEventListener("mousemove", () => {
-        menu._open("start");
+        menu._openMenu("start");
         menu.distanceAccept = true;
     }, { once: true });
 }
