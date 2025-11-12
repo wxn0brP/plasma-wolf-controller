@@ -22,14 +22,17 @@ menu.init();
     }, { once: true });
 }
 
-menu.emitter.on("menuClosed", () => _fetch("hide"));
-
-menu.emitter.on("menuOpened", () => {
+menu.emitter.on("menuClosed", async () => {
+    await new Promise(r => setTimeout(r, 100));
+    if (menu._active) return;
     menu.distanceAccept = false;
+    _fetch("hide");
 });
 
 menu.emitter.on("distance", (distance: number) => {
     const maxDistance = wolf.clientWidth - 10;
-    const percent = Math.min(1, distance / maxDistance);
+    const percent = Math.min(20, distance / maxDistance);
     wolf.style.setProperty("--alpha", percent.toString());
 });
+
+(window as any).menu = menu;

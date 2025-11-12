@@ -5,6 +5,8 @@
 	],
 	"restart_cmd": "clear",
 	"events": {
-		"rs": "clear"
+		"rs": "clear",
+		"dbr": "rm -rf data/commands/1.db",
+		"db": "bun run src/setupDB.ts"
 	}
 }

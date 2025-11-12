@@ -1,9 +1,10 @@
 import FalconFrame from "@wxn0brp/falcon-frame";
-import { execSync, spawn } from "child_process";
+import { spawn } from "child_process";
 import crypto from "crypto";
 import http from "http";
-import { getCommandsHandler } from "./db";
+import { router as apiRouter } from "./api";
 import { bin } from "./check";
+import { getCommandsHandler } from "./db";
 
 const token = process.env["PLASMA_WOLF_TOKEN"] || crypto.randomBytes(16).toString("hex");
 
@@ -21,9 +22,6 @@ const window = spawn(bin, [url], { stdio: "inherit" });
 window.on("exit", () => {
     process.exit(0);
 });
-setTimeout(() => {
-    window.kill("SIGUSR1");
-}, 2000);
 
 const api = app.router("/api");
 api.use((req, res, next) => {
@@ -32,7 +30,7 @@ api.use((req, res, next) => {
         res.end();
         return;
     }
-    console.log("api", req.method, req.url);
+    console.log("💜 api", req.method, req.url);
     next();
 })
 
@@ -58,14 +56,26 @@ api.get("/hide", () => {
 });
 
 api.get("/commands", getCommandsHandler);
+api.use(apiRouter);
 
-api.post("/execute", (req, res) => {
-    const command = req.body.command;
-    if (!command) {
-        res.status(400);
-        res.end();
-        return;
-    }
-    console.log("execute", command);
-    execSync(command);
+api.all("*", (req, res) => {
+    console.log("💔 404", req.method, req.url);
+    res.status(404);
+    res.end();
 });
+
+process.on("SIGINT", () => {
+    window.kill("SIGINT");
+});
+
+process.on("uncaughtException", (e) => {
+    console.error("Uncaught exception:", e);
+});
+
+process.on("unhandledRejection", (e) => {
+    console.error("Unhandled rejection:", e);
+});
+
+setTimeout(() => {
+    window.kill("SIGUSR1");
+}, 1000);
