@@ -29,7 +29,7 @@ This will show/hide the floating menu.
 1. Clone the repository:
    ```bash
    git clone https://github.com/wxn0brp/plasma-wolf-controller
-   cd plasma-wolf
+   cd plasma-wolf-controller
    ```
 
 2. Run script:
