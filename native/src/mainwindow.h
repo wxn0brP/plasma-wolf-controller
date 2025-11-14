@@ -28,7 +28,7 @@ protected:
         }
 
         QTextStream out(stderr);
-        out.setCodec("UTF-8");
+        out.setEncoding(QStringConverter::Utf8);
         out << "[JS " << levelStr << "] "
             << sourceID << ":" << lineNumber
             << " → " << message << "\n";

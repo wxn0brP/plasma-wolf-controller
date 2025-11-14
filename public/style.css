@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+:root {
+    --accent: indigo;
+}
+
 body {
     background-color: rgba(0, 0, 0, 0.3);
     color: white;
@@ -48,11 +52,9 @@ body {
 }
 
 .wolf-menu-item.selected {
-    color: rgba(128, 0, 255, var(--alpha, 0));
-    font-size: calc(1rem + (var(--alpha) * 0.5rem));
+    color: var(--color);
 }
 
 .wolf-menu-item.wolf-menu-item-cancel.selected {
-    font-size: 1.5rem;
     color: red;
 }

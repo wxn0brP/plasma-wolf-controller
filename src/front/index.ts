@@ -30,9 +30,15 @@ menu.emitter.on("menuClosed", async () => {
 });
 
 menu.emitter.on("distance", (distance: number) => {
-    const maxDistance = wolf.clientWidth - 10;
-    const percent = Math.min(20, distance / maxDistance);
-    wolf.style.setProperty("--alpha", percent.toString());
+    const maxDistance = menu.body._actualRadius + menu.distanceCount;
+
+    const percentAccent = Math.min(
+        100,
+        Math.max(0, Math.round(distance / maxDistance * 100))
+    );
+
+    const color = `color-mix(in srgb, var(--accent) ${percentAccent}%, white)`;
+    wolf.style.setProperty("--color", color);
 });
 
 (window as any).menu = menu;

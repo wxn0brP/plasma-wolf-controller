@@ -1,3 +1,3 @@
 make clean
-qmake plasma-wolf.pro
+qmake6 plasma-wolf.pro
 make
