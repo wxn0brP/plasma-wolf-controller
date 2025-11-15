@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@wxn0brp/db": "^0.40.1",
 		"@wxn0brp/falcon-frame": "^0.5.3",
-		"@wxn0brp/plasma-wolf": "^0.0.5"
+		"@wxn0brp/plasma-wolf": "^0.0.5",
+		"serialport": "^13.0.0"
 	}
 }
