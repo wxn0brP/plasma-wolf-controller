@@ -1,19 +1,22 @@
-const int joystickXPin = 0;
-const int joystickYPin = 1;
+const int JOY_X = A1;
+const int JOY_Y = A2;
 
-void setup() {
-  Serial.begin(115200);
-  pinMode(joystickXPin, INPUT);
-  pinMode(joystickYPin, INPUT);
+void setup()
+{
+	Serial.begin(9600);
 }
 
-void loop() {
-  int xValue = analogRead(joystickXPin);
-  int yValue = analogRead(joystickYPin);
+void loop()
+{
+	int rawX = analogRead(JOY_X); // 0–1023
+	int rawY = analogRead(JOY_Y);
 
-  Serial.print(xValue);
-  Serial.print(" ");
-  Serial.println(yValue);
+	int x = map(rawX, 0, 1023, 0, 9);
+	int y = map(rawY, 0, 1023, 0, 9);
 
-  delay(100);
+	Serial.print(x);
+	Serial.print(" ");
+	Serial.println(y);
+
+	delay(100);
 }

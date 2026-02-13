@@ -2,6 +2,7 @@ import FalconFrame from "@wxn0brp/falcon-frame";
 import { spawn } from "child_process";
 import crypto from "crypto";
 import http from "http";
+import { WebSocketServer } from "ws";
 import { router as apiRouter } from "./api";
 import { bin } from "./check";
 import { getCommandsHandler } from "./db";
@@ -18,10 +19,34 @@ server.listen(port, "127.0.0.1", () => {
     console.log(`Server started at ${url}`);
 });
 
-const window = spawn(bin, [url], { stdio: "inherit" });
+const wss = new WebSocketServer({ server });
+let socket = null;
+wss.on("connection", (ws) => {
+    if (socket) {
+        ws.close();
+        return;
+    }
+
+    socket = ws;
+    console.log("WebSocket connection established");
+
+    ws.on("close", () => {
+        socket = null;
+        console.log("WebSocket connection closed");
+    });
+});
+
+const window = spawn(bin, [url], { stdio: "pipe" });
 window.on("exit", () => {
     process.exit(0);
 });
+
+function log(data: any) {
+    const msg = data.toString() || "";
+    console.log("stdout:", msg.trim());
+}
+window.stdout.on("data", log);
+window.stderr.on("data", log);
 
 const api = app.router("/api");
 api.use((req, res, next) => {
@@ -79,3 +104,19 @@ process.on("unhandledRejection", (e) => {
 setTimeout(() => {
     window.kill("SIGUSR1");
 }, 1000);
+
+setTimeout(() => {
+    const node = spawn("node", ["dist/joy.js"], { stdio: "pipe" });
+    node.stdout.on("data", (data) => {
+        const msg = data.toString() || "";
+        if (!msg) return;
+
+        if (msg.startsWith("Using")) {
+            console.log(msg);
+            return;
+        }
+
+        if (socket)
+            socket.send(data.toString());
+    });
+}, 2_000);

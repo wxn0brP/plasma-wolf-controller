@@ -7,16 +7,19 @@
 	"type": "module",
 	"scripts": {
 		"start": "bun run src/index.ts",
-		"build": "bun build src/front/index.ts --outdir dist --source-map"
+		"build:front": "bun build src/front/index.ts --outdir dist --source-map",
+		"build:joy": "bun build src/joy.ts --outfile dist/joy.js --no-bundle"
 	},
 	"devDependencies": {
+		"@types/ws": "^8.18.1",
 		"@types/bun": "*",
 		"typescript": "*"
 	},
 	"dependencies": {
 		"@wxn0brp/db": "^0.40.1",
 		"@wxn0brp/falcon-frame": "^0.5.3",
-		"@wxn0brp/plasma-wolf": "^0.0.5",
-		"serialport": "^13.0.0"
+		"@wxn0brp/plasma-wolf": "^0.1.0",
+		"serialport": "^13.0.0",
+		"ws": "^8.19.0"
 	}
 }

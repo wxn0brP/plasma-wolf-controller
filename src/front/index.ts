@@ -17,7 +17,7 @@ menu.init();
     menu._y = +y;
     console.error("menu", menu._x, menu._y);
     document.addEventListener("mousemove", () => {
-        menu._openMenu("start");
+        menu.openMenu("start");
         menu.distanceAccept = true;
     }, { once: true });
 }
@@ -42,3 +42,26 @@ menu.emitter.on("distance", (distance: number) => {
 });
 
 (window as any).menu = menu;
+
+const socket = new WebSocket(location.href.replace("http", "ws"));
+socket.onopen = () => {
+    console.error("WebSocket connection established");
+};
+
+socket.onmessage = (message) => {
+    const data = JSON.parse(message.data);
+    const [x, y] = data;
+    menu._startX = menu._x = window.innerWidth / 2;
+    menu._startY = menu._y = window.innerHeight / 2;
+
+    menu.openMenu("start");
+    menu.handleMove();
+};
+
+socket.onclose = () => {
+    console.error("WebSocket connection closed");
+};
+
+socket.onerror = (error) => {
+    console.error("WebSocket error:", JSON.stringify(error));
+};
