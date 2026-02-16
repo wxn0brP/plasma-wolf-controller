@@ -16,7 +16,7 @@
 		"typescript": "*"
 	},
 	"dependencies": {
-		"@wxn0brp/db": "^0.40.1",
+		"@wxn0brp/db": "^0.80.0",
 		"@wxn0brp/falcon-frame": "^0.5.3",
 		"@wxn0brp/plasma-wolf": "^0.1.0",
 		"serialport": "^13.0.0",
