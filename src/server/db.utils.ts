@@ -1,11 +1,9 @@
-import { Valthera } from "@wxn0brp/db";
 import { RouteHandler } from "@wxn0brp/falcon-frame";
-import { DbCommand } from "./shared/types";
-
-export const db = new Valthera("data");
+import { db } from "./db";
+import { DbCommand } from "../shared/types";
 
 export async function getCommands() {
-    const commandsRaw = await db.find<DbCommand>("commands");
+    const commandsRaw = await db.commands.find();
     const map = new Map<string, DbCommand[]>();
     for (const command of commandsRaw) {
         const className = command.class;

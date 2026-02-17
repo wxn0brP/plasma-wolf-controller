@@ -1,0 +1,12 @@
+{
+    cmd: "tsc --noEmit && bun run build:front",
+    watch: [
+        "src",
+    ],
+    restart_cmd: "clear",
+    events: {
+        rs: "clear",
+        dbr: "rm -rf data/commands/1.db",
+        db: "bun run src/setupDB.ts",
+    },
+}

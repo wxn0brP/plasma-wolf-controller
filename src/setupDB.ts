@@ -1,7 +1,5 @@
-import { Valthera } from "@wxn0brp/db";
+import { db } from "./server/db";
 import { DbCommand } from "./shared/types";
-
-const db = new Valthera("data");
 
 const data: DbCommand[] = [
     { name: "Applications", class: "start", type: "go", to: "apps" },
@@ -30,5 +28,9 @@ const data: DbCommand[] = [
 
 
 for (const command of data) {
-    await db.updateOneOrAdd("commands", { name: command.name, class: command.class }, command, { id_gen: false });
+    await db.commands.updateOneOrAdd(
+        { name: command.name, class: command.class },
+        command,
+        { id_gen: false }
+    );
 }
