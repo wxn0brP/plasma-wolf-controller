@@ -1,17 +1,17 @@
-import { wss } from "./server";
+// import { wss } from "./server";
 
-export let socket = null;
-wss.on("connection", (ws) => {
-    if (socket) {
-        ws.close();
-        return;
-    }
+// export let socket = null;
+// wss.on("connection", (ws) => {
+//     if (socket) {
+//         ws.close();
+//         return;
+//     }
 
-    socket = ws;
-    console.log("WebSocket connection established");
+//     socket = ws;
+//     console.log("WebSocket connection established");
 
-    ws.on("close", () => {
-        socket = null;
-        console.log("WebSocket connection closed");
-    });
-});
+//     ws.on("close", () => {
+//         socket = null;
+//         console.log("WebSocket connection closed");
+//     });
+// });

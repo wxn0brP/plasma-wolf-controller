@@ -1,9 +1,9 @@
-import { spawn } from "child_process";
+// import { spawn } from "child_process";
 import { api } from "./server/api";
 import { app, port, server, url } from "./server/server";
 import { window } from "./server/windows";
 import "./server/wss";
-import { socket } from "./server/wss";
+// import { socket } from "./server/wss";
 
 app.static("public");
 app.static("dist");
@@ -30,18 +30,18 @@ setTimeout(() => {
     window.kill("SIGUSR1");
 }, 1000);
 
-setTimeout(() => {
-    const node = spawn("node", ["dist/joy.js"], { stdio: "pipe" });
-    node.stdout.on("data", (data) => {
-        const msg = data.toString() || "";
-        if (!msg) return;
+// setTimeout(() => {
+//     const node = spawn("node", ["dist/joy.js"], { stdio: "pipe" });
+//     node.stdout.on("data", (data) => {
+//         const msg = data.toString() || "";
+//         if (!msg) return;
 
-        if (msg.startsWith("Using")) {
-            console.log(msg);
-            return;
-        }
+//         if (msg.startsWith("Using")) {
+//             console.log(msg);
+//             return;
+//         }
 
-        if (socket)
-            socket.send(data.toString());
-    });
-}, 2_000);
+//         if (socket)
+//             socket.send(data.toString());
+//     });
+// }, 2_000);
